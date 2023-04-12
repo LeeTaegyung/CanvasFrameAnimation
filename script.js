@@ -187,6 +187,7 @@
 
         // 이미지 그리기
         imgDraw(num) {
+            console.log(num);
 
             if(!this.frames[num]) return;
             this.ctx.clearRect(0, 0, this.viewWidth, this.viewHeight);
