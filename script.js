@@ -67,10 +67,10 @@
         }
 
         // 이미지 초기 세팅(최초 한번만 실행됨.) ==> Promise 병렬로 수정을 해야할거 같음......
-        initImageSet() {
+        async initImageSet() {
             const promises = [];
             for(let i = 1; i < this.imgCount; i++) {
-                let p = new Promise((resolve) => {
+                let p = await new Promise((resolve) => {
                     const img = new Image();
     
                     let imgNumConvert = (this.imgCountDigit - String(i).length > 0) ? new Array(this.imgCountDigit - String(i).length).fill(0) : new Array;
@@ -79,9 +79,8 @@
                     img.src = `${this.imgRoute}${this.imgName}${imgNumConvert.join('')}.${this.imgFormat}`;
                     this.frames[i-1] = img;
                     resolve();
-                }).then(() => {
-                    promises.push(p);
                 })
+                promises.push(p);
             }
             Promise.all(promises).then(() => {
                 this.frames[0].addEventListener('load', () => {
