@@ -83,8 +83,8 @@
     
                     img.src = `${this.imgRoute}${this.imgName}${imgNumConvert.join('')}.${this.imgFormat}`;
                     this.frames[i-1] = img;
-                    resolve();
                     promises.push(p);
+                    resolve();
                 })
             }
             Promise.all(promises).then(() => {
