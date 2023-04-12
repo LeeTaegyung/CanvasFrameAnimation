@@ -68,8 +68,9 @@
 
         // 이미지 초기 세팅(최초 한번만 실행됨.)
         initImageSet() {
-            new Promise((resolve) => {
-                for(let i = 1; i < this.imgCount; i++) {
+            const promises = [];
+            for(let i = 1; i < this.imgCount; i++) {
+                let p = new Promise((resolve) => {
                     const img = new Image();
     
                     let imgNumConvert = [];
@@ -82,16 +83,15 @@
     
                     img.src = `${this.imgRoute}${this.imgName}${imgNumConvert.join('')}.${this.imgFormat}`;
                     this.frames[i-1] = img;
-
-                    if(i === this.imgCount - 1) {
-                        resolve();
-                    }
-                }
-            }).then(() => {
+                    resolve();
+                    promises.push(p);
+                })
+            }
+            Promise.all(promises).then(() => {
                 this.frames[0].addEventListener('load', () => {
                     this.init();
                 })
-            })
+            });
 
         }
 
