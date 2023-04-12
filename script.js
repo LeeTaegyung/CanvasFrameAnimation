@@ -204,6 +204,10 @@
             } else if(this.st > this.scrollEnd) { // 해당 영역의 끝점보다 밑으로 갈때
                 this.scrollImgCount = this.imgCount;
             }
+
+            if(this.scrollImgCount === undefined) {
+                this.scrollImgCount = 0;
+            }
             
             // 부드러운 느낌을 내기 위해 가속도 계산
             this.delay = this.delay + (this.scrollImgCount - this.delay) * this.acc;
