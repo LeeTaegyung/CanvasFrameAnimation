@@ -39,7 +39,7 @@
             this.initImageSet();
             
             // load Event
-            // window.addEventListener('load', () => this.init());
+            window.addEventListener('load', () => this.init());
             // resize Event
             window.addEventListener('resize', () => this.init());
             // scroll Event
@@ -86,9 +86,9 @@
                 this.frames.push(img);
             }
 
-            this.frames[0].addEventListener('load', () => {
-                this.init();
-            })
+            // this.frames[0].addEventListener('load', () => {
+            //     this.init();
+            // })
         }
 
         viewPortCalc() {
@@ -187,8 +187,6 @@
 
         // 이미지 그리기
         imgDraw(num) {
-            console.log(num);
-
             if(!this.frames[num]) return;
             this.ctx.clearRect(0, 0, this.viewWidth, this.viewHeight);
             this.ctx.drawImage(this.frames[num], this.xPos, this.yPos, this.resizeWidth, this.resizeHeight);
@@ -226,8 +224,8 @@
         scrollEndPoint: 0.9,
         imgSize: 'contain',
         imgCount: 496,
-        imgRoute: './frames/',
-        imgFormat: 'jpg',
+        imgRoute: './frames/webp/',
+        imgFormat: 'webp',
     })
 
     const frameEle2 = new CanvasFrame({
@@ -239,8 +237,8 @@
         imgSize: 'contain',
         imgCount: 224,
         imgCountDigit: 4,
-        imgRoute: './frames2/',
-        imgFormat: 'jpg',
+        imgRoute: './frames2/webp/',
+        imgFormat: 'webp',
         
     })
 
