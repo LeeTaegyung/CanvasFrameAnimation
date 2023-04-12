@@ -228,8 +228,8 @@
         scrollEndPoint: 0.9,
         imgSize: 'contain',
         imgCount: 496,
-        imgRoute: './frames/webp/',
-        imgFormat: 'webp',
+        imgRoute: './frames/jpg/',
+        imgFormat: 'jpg',
     })
 
     const frameEle2 = new CanvasFrame({
@@ -241,8 +241,8 @@
         imgSize: 'contain',
         imgCount: 224,
         imgCountDigit: 4,
-        imgRoute: './frames2/webp/',
-        imgFormat: 'webp',
+        imgRoute: './frames2/jpg/',
+        imgFormat: 'jpg',
         
     })
 
