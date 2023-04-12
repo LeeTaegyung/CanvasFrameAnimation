@@ -73,12 +73,7 @@
                 let p = new Promise((resolve) => {
                     const img = new Image();
     
-                    let imgNumConvert = [];
-                    if(this.imgCountDigit >= 2) {
-                        for(let zeroIdx = 0; zeroIdx < this.imgCountDigit - String(i).length; zeroIdx++ ) {
-                            imgNumConvert.push(0);
-                        }
-                    }
+                    let imgNumConvert = (this.imgCountDigit - String(i).length > 0) ? new Array(this.imgCountDigit - String(i).length).fill(0) : new Array;
                     imgNumConvert.push(i);
     
                     img.src = `${this.imgRoute}${this.imgName}${imgNumConvert.join('')}.${this.imgFormat}`;
