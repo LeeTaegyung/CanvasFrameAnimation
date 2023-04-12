@@ -45,10 +45,6 @@
             // scroll Event
             window.addEventListener('scroll', () => {
 
-                this.st = window.pageYOffset + this.viewPortVal; // 현재 스크롤 위치 + 애니메이션 시작 위치
-                
-                this.scrollCurrent = ((this.st - this.scrollStart) >= 0) ? (this.st - this.scrollStart) : 0; // 애니메이션이 실제로 실행될 위치 안에서 스크롤값. 이걸 기준으로 비율을 계산함. -값이라면 0으로 초기화
-
                 if(!this.isReqStart) { // requestAnimationFrame 중복 막기
                     this.isReqStart = true;
                     this.refId = window.requestAnimationFrame(() => this.accCalc());
@@ -155,7 +151,7 @@
             this.posXCalc();
             this.posYCalc();
             // 제일 첫 프레임 그려주기
-            this.imgDraw(0);
+            this.accCalc();
         }
 
         posXCalc() {
@@ -195,6 +191,9 @@
 
         // 가속도
         accCalc() {
+            this.st = window.pageYOffset + this.viewPortVal; // 현재 스크롤 위치 + 애니메이션 시작 위치
+            this.scrollCurrent = ((this.st - this.scrollStart) >= 0) ? (this.st - this.scrollStart) : 0; // 애니메이션이 실제로 실행될 위치 안에서 스크롤값. 이걸 기준으로 비율을 계산함. -값이라면 0으로 초기화
+
             if(this.st > this.scrollStart && this.scrollEnd > this.st) { // 해당 영역일때
                 this.scrollRatio = Math.abs(this.scrollCurrent) / this.scrollHeight; // 애니메이션이 움직일 영역내에서 스크롤이 얼마나 움직였는지 비율 계산
                 this.scrollImgCount = Math.round(this.imgCount * this.scrollRatio); // 이미지 갯수에 스크롤 비율만큼 곱함.
