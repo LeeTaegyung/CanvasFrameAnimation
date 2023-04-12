@@ -66,7 +66,7 @@
             this.sizeCalc();
         }
 
-        // 이미지 초기 세팅(최초 한번만 실행됨.)
+        // 이미지 초기 세팅(최초 한번만 실행됨.) ==> Promise 병렬로 수정을 해야할거 같음......
         initImageSet() {
             const promises = [];
             for(let i = 1; i < this.imgCount; i++) {
@@ -83,9 +83,9 @@
     
                     img.src = `${this.imgRoute}${this.imgName}${imgNumConvert.join('')}.${this.imgFormat}`;
                     this.frames[i-1] = img;
-                    promises.push(p);
                     resolve();
                 })
+                promises.push(p);
             }
             Promise.all(promises).then(() => {
                 this.frames[0].addEventListener('load', () => {
