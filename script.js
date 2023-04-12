@@ -79,8 +79,9 @@
                     img.src = `${this.imgRoute}${this.imgName}${imgNumConvert.join('')}.${this.imgFormat}`;
                     this.frames[i-1] = img;
                     resolve();
+                }).then(() => {
+                    promises.push(p);
                 })
-                promises.push(p);
             }
             Promise.all(promises).then(() => {
                 this.frames[0].addEventListener('load', () => {
