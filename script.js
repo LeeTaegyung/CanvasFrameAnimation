@@ -7,7 +7,7 @@
             this.ctx = this.canvas.getContext('2d');
             this.target = document.querySelector(value.aniTarget); // 애니메이션이 움직일 영역
 
-            this.frames = [];
+            
             this.imgCount = value.imgCount; // 이미지 총 개수
             this.imgCountDigit = value.imgCountDigit || 1; // 이미지 숫자 자릿수, 000이면 3, 0000이면 4
             this.imgRoute = value.imgRoute; // 이미지 경로
@@ -16,6 +16,7 @@
             this.imgSize = value.imgSize || 'auto'; // background-size: cover || contain || auto
             this.originX = value.originX || 'center'; // background-position-x : left || center || right
             this.originY = value.originY || 'center'; // background-position-y : top || center || bottom
+            this.frames = new Array(this.imgCount);
             
             this.targetOffsetTop = this.target.offsetTop; // 애니메이션이 움직일 영역의 위치값
             this.viewPortStart = value.viewPortStart || 1; // top || center || bottom || 0 ~ 1 // 화면기준 어느 부분부터 시작할지
@@ -80,7 +81,7 @@
                     imgNumConvert.push(i);
     
                     img.src = `${this.imgRoute}${this.imgName}${imgNumConvert.join('')}.${this.imgFormat}`;
-                    this.frames.push(img);
+                    this.frames[i-1] = img;
 
                     if(i === this.imgCount - 1) {
                         resolve();
