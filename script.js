@@ -39,7 +39,7 @@
             this.initImageSet();
             
             // load Event
-            window.addEventListener('load', () => this.init());
+            // window.addEventListener('load', () => this.init());
             // resize Event
             window.addEventListener('resize', () => this.init());
             // scroll Event
@@ -86,9 +86,9 @@
                 this.frames.push(img);
             }
 
-            // this.frames[0].addEventListener('load', () => {
-            //     this.init();
-            // })
+            this.frames[0].addEventListener('load', () => {
+                this.init();
+            })
         }
 
         viewPortCalc() {
