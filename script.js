@@ -67,24 +67,31 @@
 
         // 이미지 초기 세팅(최초 한번만 실행됨.)
         initImageSet() {
-            for(let i = 1; i < this.imgCount; i++) {
-                const img = new Image();
+            new Promise((resolve) => {
+                for(let i = 1; i < this.imgCount; i++) {
+                    const img = new Image();
+    
+                    let imgNumConvert = [];
+                    if(this.imgCountDigit >= 2) {
+                        for(let zeroIdx = 0; zeroIdx < this.imgCountDigit - String(i).length; zeroIdx++ ) {
+                            imgNumConvert.push(0);
+                        }
+                    }
+                    imgNumConvert.push(i);
+    
+                    img.src = `${this.imgRoute}${this.imgName}${imgNumConvert.join('')}.${this.imgFormat}`;
+                    this.frames.push(img);
 
-                let imgNumConvert = [];
-                if(this.imgCountDigit >= 2) {
-                    for(let zeroIdx = 0; zeroIdx < this.imgCountDigit - String(i).length; zeroIdx++ ) {
-                        imgNumConvert.push(0);
+                    if(i === this.imgCount - 1) {
+                        resolve();
                     }
                 }
-                imgNumConvert.push(i);
-
-                img.src = `${this.imgRoute}${this.imgName}${imgNumConvert.join('')}.${this.imgFormat}`;
-                this.frames.push(img);
-            }
-
-            this.frames[0].addEventListener('load', () => {
-                this.init();
+            }).then(() => {
+                this.frames[0].addEventListener('load', () => {
+                    this.init();
+                })
             })
+
         }
 
         viewPortCalc() {
@@ -150,7 +157,7 @@
             //x, y 값 재정의
             this.posXCalc();
             this.posYCalc();
-            // 제일 첫 프레임 그려주기
+            // 현재 위치에 맞게 프레임 그려주기.
             this.accCalc();
         }
 
