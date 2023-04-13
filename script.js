@@ -85,7 +85,7 @@
                     const img = new Image();
 
                     img.src = url;
-
+                    console.log(1);
                     img.onload = () => resolve(img);
                     img.onerror = () => reject(`images failed to load: ${url}`);
                 });
@@ -191,7 +191,6 @@
 
         // 이미지 그리기
         imgDraw(num) {
-            console.log(num);
             if(!this.frames[num]) return;
             this.ctx.clearRect(0, 0, this.viewWidth, this.viewHeight);
             this.ctx.drawImage(this.frames[num], this.xPos, this.yPos, this.resizeWidth, this.resizeHeight);
@@ -240,17 +239,17 @@
         imgFormat: 'jpg',
     })
 
-    // const frameEle2 = new CanvasFrame({
-    //     canvas: '#canvas2',
-    //     aniTarget: '.sec2',
-    //     viewPortStart: 'bottom',
-    //     scrollStartPoint: 0,
-    //     scrollEndPoint: 1,
-    //     imgSize: 'contain',
-    //     imgCount: 223,
-    //     imgCountDigit: 4,
-    //     imgRoute: './frames2/jpg/',
-    //     imgFormat: 'jpg',
-    // })
+    const frameEle2 = new CanvasFrame({
+        canvas: '#canvas2',
+        aniTarget: '.sec2',
+        viewPortStart: 'bottom',
+        scrollStartPoint: 0,
+        scrollEndPoint: 1,
+        imgSize: 'contain',
+        imgCount: 223,
+        imgCountDigit: 4,
+        imgRoute: './frames2/jpg/',
+        imgFormat: 'jpg',
+    })
 
 })()
