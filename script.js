@@ -67,22 +67,20 @@
 
         
         imageUrlSet() {
-            const urls = [];
             for(let i = 0; i < this.imgCount; i++) {
                 const imgNum = i + this.imgNumStart;
                 const zeroFill = this.imgCountDigit - String(imgNum).length;
                 const zeroFillConvert = (zeroFill > 0) ? new Array(zeroFill).fill(0) : new Array;
                 zeroFillConvert.push(imgNum);
                 const url = `${this.imgRoute}${this.imgName}${zeroFillConvert.join('')}.${this.imgFormat}`;
-                urls.push(url);
+                this.urls.push(url);
             }
-            return urls;
         }
 
         // 이미지 초기 세팅(최초 한번만 실행됨.)
         async initImageSet() {
-            const urls = await this.imageUrlSet();
-            const promises = urls.map((url) => {
+            this.imageUrlSet();
+            const promises = this.urls.map((url) => {
                 return new Promise((resolve, reject) => {
                     const img = new Image();
 
