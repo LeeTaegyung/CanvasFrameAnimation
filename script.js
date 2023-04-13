@@ -85,13 +85,15 @@
                     const img = new Image();
 
                     img.src = url;
-                    console.log(1);
-                    img.onload = () => resolve(img);
+                    console.log('1');
+                    img.onload = () => {
+                        console.log('2');
+                        resolve(img);
+                    };
                     img.onerror = () => reject(`images failed to load: ${url}`);
                 });
             })
             this.frames = await Promise.all(promises);
-
             this.init();
         }
 
