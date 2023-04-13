@@ -240,18 +240,17 @@
         imgFormat: 'jpg',
     })
 
-    const frameEle2 = new CanvasFrame({
-        canvas: '#canvas2',
-        aniTarget: '.sec2',
-        viewPortStart: 'bottom',
-        scrollStartPoint: 0,
-        scrollEndPoint: 1,
-        imgSize: 'contain',
-        imgCount: 223,
-        imgCountDigit: 4,
-        imgRoute: './frames2/jpg/',
-        imgFormat: 'jpg',
-        
-    })
+    // const frameEle2 = new CanvasFrame({
+    //     canvas: '#canvas2',
+    //     aniTarget: '.sec2',
+    //     viewPortStart: 'bottom',
+    //     scrollStartPoint: 0,
+    //     scrollEndPoint: 1,
+    //     imgSize: 'contain',
+    //     imgCount: 223,
+    //     imgCountDigit: 4,
+    //     imgRoute: './frames2/jpg/',
+    //     imgFormat: 'jpg',
+    // })
 
 })()
