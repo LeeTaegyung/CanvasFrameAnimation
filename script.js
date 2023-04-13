@@ -86,15 +86,15 @@
 
                     img.src = url;
                     console.log('1');
-                    img.onload = () => {
-                        console.log('2');
-                        resolve(img);
-                    };
-                    img.onerror = () => reject(`images failed to load: ${url}`);
+                    // img.onload = () => {
+                    //     console.log('2');
+                    // };
+                    resolve(img);
+                    // img.onerror = () => reject(`images failed to load: ${url}`);
                 });
             })
             this.frames = await Promise.all(promises);
-            this.init();
+            window.addEventListener('load', () => this.init());
         }
 
         viewPortCalc() {
