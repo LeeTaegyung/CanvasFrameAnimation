@@ -86,7 +86,6 @@
                     const img = new Image();
 
                     img.src = url;
-                    console.log('1');
                     resolve(img);
                     img.onload = () => {
                         if(!this.isCalc) {
