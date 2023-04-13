@@ -66,7 +66,7 @@
         }
 
         
-        imageUrlSet() {
+        imagesUrlSet() {
             for(let i = 0; i < this.imgCount; i++) {
                 const imgNum = i + this.imgNumStart;
                 const zeroFill = this.imgCountDigit - String(imgNum).length;
@@ -77,28 +77,27 @@
             }
         }
 
-        // 이미지 초기 세팅(최초 한번만 실행됨.)
-        async initImageSet() {
-            this.isCalc = false;
-            this.imageUrlSet();
+        imagesLoad() {
             const promises = this.urls.map((url) => {
                 return new Promise((resolve, reject) => {
                     const img = new Image();
 
                     img.src = url;
                     resolve(img);
-                    img.onload = () => {
-                        if(!this.isCalc) {
-                            this.isCalc = true;
-                            this.init();
-                        }
-                    };
+                    // img.onload = () => {
+                    // };
                     this.frames.push(img);
                     // img.onerror = () => reject(`images failed to load: ${url}`);
                 });
-            })
-            await Promise.all(promises);
-            // window.addEventListener('load', () => this.init(), false);
+            });
+            return Promise.all(promises);
+        }
+
+        // 이미지 초기 세팅(최초 한번만 실행됨.)
+        async initImageSet() {
+            this.imagesUrlSet();
+            await this.imagesLoad();
+            window.addEventListener('load', () => this.init(), false);
         }
 
         viewPortCalc() {
