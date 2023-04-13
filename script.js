@@ -7,7 +7,9 @@
             this.ctx = this.canvas.getContext('2d');
             this.target = document.querySelector(value.aniTarget); // 애니메이션이 움직일 영역
 
-            
+            this.frames = [];
+            this.urls = [];
+            this.imgNumStart = value.imgNumStart || 1;
             this.imgCount = value.imgCount; // 이미지 총 개수
             this.imgCountDigit = value.imgCountDigit || 1; // 이미지 숫자 자릿수, 000이면 3, 0000이면 4
             this.imgRoute = value.imgRoute; // 이미지 경로
@@ -16,7 +18,6 @@
             this.imgSize = value.imgSize || 'auto'; // background-size: cover || contain || auto
             this.originX = value.originX || 'center'; // background-position-x : left || center || right
             this.originY = value.originY || 'center'; // background-position-y : top || center || bottom
-            this.frames = new Array(this.imgCount);
             
             this.targetOffsetTop = this.target.offsetTop; // 애니메이션이 움직일 영역의 위치값
             this.viewPortStart = value.viewPortStart || 1; // top || center || bottom || 0 ~ 1 // 화면기준 어느 부분부터 시작할지
@@ -39,8 +40,6 @@
 
             this.initImageSet();
             
-            // load Event
-            // window.addEventListener('load', () => this.init());
             // resize Event
             window.addEventListener('resize', () => this.init());
             // scroll Event
@@ -67,27 +66,52 @@
         }
 
         // 이미지 초기 세팅(최초 한번만 실행됨.) ==> Promise 병렬로 수정을 해야할거 같음......
-        async initImageSet() {
-            const promises = [];
-            for(let i = 1; i < this.imgCount; i++) {
-                let p = await new Promise((resolve) => {
-                    const img = new Image();
-    
-                    let imgNumConvert = (this.imgCountDigit - String(i).length > 0) ? new Array(this.imgCountDigit - String(i).length).fill(0) : new Array;
-                    imgNumConvert.push(i);
-    
-                    img.src = `${this.imgRoute}${this.imgName}${imgNumConvert.join('')}.${this.imgFormat}`;
-                    this.frames[i-1] = img;
-                    resolve();
-                })
-                promises.push(p);
+        imageUrlSet() {
+            for(let i = 0; i < this.imgCount; i++) {
+                const imgNum = i + this.imgNumStart;
+                const zeroFill = this.imgCountDigit - String(imgNum).length;
+                const zeroFillConvert = (zeroFill > 0) ? new Array(zeroFill).fill(0) : new Array;
+                zeroFillConvert.push(imgNum);
+                const url = `${this.imgRoute}${this.imgName}${zeroFillConvert.join('')}.${this.imgFormat}`;
+                this.urls.push(url);
             }
-            Promise.all(promises).then(() => {
-                this.frames[0].addEventListener('load', () => {
-                    this.init();
-                })
-            });
+        }
 
+
+        async initImageSet() {
+            this.imageUrlSet();
+            const promises = this.urls.map((url) => {
+                return new Promise((resolve, reject) => {
+                    const img = new Image();
+
+                    img.src = url;
+
+                    img.onload = () => resolve(img);
+                    img.onerror = () => reject(`images failed to load: ${url}`);
+                });
+            })
+            this.frames = await Promise.all(promises);
+
+            this.init();
+
+            // for(let i = 0; i < this.imgCount; i++) {
+            //     let p = new Promise((resolve) => {
+            //         const img = new Image();
+    
+            //         let imgNumConvert = (this.imgCountDigit - String(i).length > 0) ? new Array(this.imgCountDigit - String(i).length).fill(0) : new Array;
+            //         imgNumConvert.push(i);
+    
+            //         img.src = `${this.imgRoute}${this.imgName}${imgNumConvert.join('')}.${this.imgFormat}`;
+            //         this.frames[i-1] = img;
+            //         resolve();
+            //     })
+            //     promises.push(p);
+            // }
+            // Promise.all(promises).then(() => {
+            //     this.frames[0].addEventListener('load', () => {
+            //         this.init();
+            //     })
+            // });
         }
 
         viewPortCalc() {
