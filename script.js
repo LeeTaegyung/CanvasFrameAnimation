@@ -79,6 +79,7 @@
 
         // 이미지 초기 세팅(최초 한번만 실행됨.)
         async initImageSet() {
+            this.isCalc = false;
             this.imageUrlSet();
             const promises = this.urls.map((url) => {
                 return new Promise((resolve, reject) => {
@@ -86,15 +87,19 @@
 
                     img.src = url;
                     console.log('1');
-                    // img.onload = () => {
-                    //     console.log('2');
-                    // };
                     resolve(img);
+                    img.onload = () => {
+                        if(!this.isCalc) {
+                            this.isCalc = true;
+                            this.init();
+                        }
+                    };
+                    this.frames.push(img);
                     // img.onerror = () => reject(`images failed to load: ${url}`);
                 });
             })
-            this.frames = await Promise.all(promises);
-            window.addEventListener('load', () => this.init());
+            await Promise.all(promises);
+            // window.addEventListener('load', () => this.init(), false);
         }
 
         viewPortCalc() {
